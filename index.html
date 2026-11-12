@@ -4,352 +4,560 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Liantsoa School - Apprendre avec le sourire</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+  <meta name="description" content="Liantsoa School : de la maternelle au lycée, apprendre avec le sourire dans un cadre bienveillant.">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&display=swap" rel="stylesheet">
   <style>
+
     /* ===== VARIABLES & RESET ===== */
     :root {
-      --bleu: #0a4da3;
-      --bleu-fonce: #063575;
-      --bleu-vif: #1e88e5;
-      --corail: #ff6f59;
-      --corail-fonce: #e04f3a;
-      --jaune: #ffce54;
-      --creme: #fdf8ef;
-      --creme-fonce: #f5ecd9;
+      --rouge: #ff6f59;
+      --rouge-fonce: #e04f3a;
+      --rouge-clair: #ffce54;
+      --vert: #0a4da3;
+      --vert-clair: #1e88e5;
       --blanc: #ffffff;
+      --creme: #fdf8ef;
+      --gris-clair: #f5ecd9;
       --gris-fonce: #2b3545;
-      --gris-doux: #6b7585;
-      --transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+      --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
-      font-family: 'Nunito', sans-serif;
+      font-family: 'Montserrat', sans-serif;
       color: var(--gris-fonce);
       background-color: var(--creme);
       overflow-x: hidden;
     }
-    ::selection { background: var(--jaune); color: var(--gris-fonce); }
 
-    /* ===== BARRE DE PROGRESSION ===== */
+    /* ===== BARRE DE PROGRESSION DE LECTURE ===== */
     #progress-bar {
-      position: fixed; top: 0; left: 0; height: 4px; width: 0%;
-      background: linear-gradient(90deg, var(--corail), var(--bleu-vif));
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--rouge), var(--vert-clair));
       z-index: 9999;
       transition: width 0.1s linear;
+      box-shadow: 0 0 10px rgba(255, 111, 89, 0.5);
     }
 
-    /* ===== PRELOADER (léger, pas d'anneau) ===== */
+    /* ===== PRELOADER ===== */
     #preloader {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: var(--creme);
       display: flex; flex-direction: column; justify-content: center; align-items: center;
       z-index: 99999;
-      transition: opacity 0.7s ease, visibility 0.7s ease;
+      transition: opacity 1s ease, visibility 1s ease;
     }
     #preloader.hidden { opacity: 0; visibility: hidden; }
-    .logo-sticker-intro {
-      background: var(--blanc);
-      border-radius: 18px;
-      padding: 18px 26px;
-      box-shadow: 0 16px 40px rgba(10, 77, 163, 0.18);
-      transform: rotate(-3deg) scale(0.85);
-      opacity: 0;
-      animation: stickerIn 0.9s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-    }
-    .logo-sticker-intro img { display: block; height: 130px; width: auto; }
-    .loading-dots { margin-top: 28px; display: flex; gap: 8px; }
-    .loading-dots span {
-      width: 10px; height: 10px; border-radius: 50%;
-      background: var(--corail);
-      animation: dotBounce 1.2s ease-in-out infinite;
-    }
-    .loading-dots span:nth-child(2) { background: var(--jaune); animation-delay: 0.15s; }
-    .loading-dots span:nth-child(3) { background: var(--bleu-vif); animation-delay: 0.3s; }
 
-    /* ===== NAVIGATION (barre pleine largeur, pas de pilule flottante) ===== */
+    .logo-intro {
+      position: relative; width: 280px; padding: 24px 32px;
+      display: flex; justify-content: center; align-items: center;
+      background: var(--blanc); border-radius: 24px;
+      box-shadow: 0 0 30px rgba(255, 111, 89, 0.25);
+      animation: zoomIn 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards, pulseRing 2s infinite alternate;
+    }
+    .logo-img-intro { width: 100%; height: auto; display: block; }
+    .loading-bar {
+      width: 200px; height: 4px; background: var(--gris-clair);
+      border-radius: 2px; margin-top: 30px; overflow: hidden; position: relative;
+    }
+    .loading-bar::after {
+      content: ''; position: absolute; top: 0; left: 0; height: 100%; width: 0%;
+      background: var(--rouge); animation: loadBar 2.5s ease forwards;
+    }
+
+    /* ===== NAVIGATION ===== */
     header {
-      position: fixed; top: 0; left: 0; width: 100%;
-      z-index: 1000;
-      background: rgba(253, 248, 239, 0.92);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border-bottom: 3px dashed rgba(10, 77, 163, 0.25);
-      transition: var(--transition);
+      position: fixed; top: 20px; left: 50%;
+      transform: translateX(-50%);
+      width: 95%; max-width: 1300px;
+      z-index: 1000; transition: var(--transition);
     }
     .nav-container {
-      max-width: 1300px; margin: 0 auto;
-      padding: 14px 30px;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border-radius: 60px;
+      padding: 10px 25px;
       display: flex; justify-content: space-between; align-items: center;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.6);
       transition: var(--transition);
     }
-    header.scrolled .nav-container { padding: 8px 30px; }
-    header.scrolled { box-shadow: 0 6px 20px rgba(10, 77, 163, 0.08); }
-
-    .nav-logo { display: flex; align-items: center; cursor: pointer; }
-    .logo-sticker {
-      background: var(--blanc);
-      border-radius: 12px;
-      padding: 4px 9px;
-      box-shadow: 0 6px 16px rgba(10, 77, 163, 0.15);
-      transform: rotate(-2deg);
-      transition: var(--transition);
-      margin-right: 24px;
+    header.scrolled .nav-container {
+      background: rgba(255, 255, 255, 0.98);
+      box-shadow: 0 5px 20px rgba(255, 111, 89, 0.1);
+      padding: 5px 25px;
     }
-    .nav-logo:hover .logo-sticker { transform: rotate(2deg) scale(1.05); }
-    .logo-sticker img { display: block; height: 24px; width: auto; }
+    .nav-logo {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 1.1rem; font-weight: 900; color: var(--rouge);
+      letter-spacing: 2px; padding: 5px 15px 5px 5px;
+      border-radius: 40px; transition: var(--transition); cursor: pointer;
+      text-decoration: none;
+    }
+    .nav-logo-img { height: 54px; width: auto; display: block; transition: var(--transition); }
+    header.scrolled .nav-logo-img { height: 40px; }
+    .nav-logo:hover .nav-logo-img { transform: scale(1.06); }
 
-    nav ul { display: flex; list-style: none; gap: 4px; align-items: center; }
+    nav ul { display: flex; list-style: none; gap: 5px; align-items: center; }
     nav a {
-      display: block; padding: 10px 16px;
+      display: block; padding: 10px 18px;
       text-decoration: none; color: var(--gris-fonce);
-      font-weight: 700; font-size: 1.05rem;
+      font-weight: 600; font-size: 0.78rem;
+      text-transform: uppercase; letter-spacing: 0.8px;
+      border-radius: 50px;
       position: relative; transition: var(--transition);
-      white-space: nowrap;
+      white-space: nowrap; background: transparent;
     }
-    nav a::after {
-      content: ''; position: absolute; left: 16px; right: 16px; bottom: 4px;
-      height: 3px; border-radius: 2px;
-      background: var(--corail);
-      transform: scaleX(0); transform-origin: left;
-      transition: transform 0.3s ease;
+    nav a:hover {
+      background: var(--rouge); color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(255, 111, 89, 0.3);
     }
-    nav a:hover::after, nav a.active::after { transform: scaleX(1); }
-    nav a.active { color: var(--corail-fonce); }
-
+    nav a.active {
+      background: var(--rouge); color: white;
+      box-shadow: 0 6px 20px rgba(255, 111, 89, 0.35);
+    }
+    nav a.active::before {
+      content: ''; position: absolute;
+      top: 3px; right: 6px;
+      width: 6px; height: 6px;
+      background: var(--vert-clair); border-radius: 50%;
+      box-shadow: 0 0 8px var(--vert-clair);
+    }
     .menu-toggle {
-      display: none; width: 46px; height: 46px;
-      border: none; background: var(--blanc); color: var(--bleu);
-      border-radius: 12px; font-size: 1.3rem;
+      display: none; width: 45px; height: 45px;
+      border: none; background: var(--rouge); color: white;
+      border-radius: 50%; font-size: 1.3rem;
       cursor: pointer; transition: var(--transition);
-      box-shadow: 0 4px 14px rgba(10, 77, 163, 0.15);
+      box-shadow: 0 4px 15px rgba(255, 111, 89, 0.3);
+    }
+    .menu-toggle:hover { transform: scale(1.1); }
+
+    /* ===== HERO (accueil) ===== */
+    .hero {
+      height: 100vh;
+      background: linear-gradient(rgba(10,30,60,0.65), rgba(10,30,60,0.65)), url('https://images.unsplash.com/photo-1588072432836-e10032774350?q=80&w=1920&auto=format&fit=crop') center/cover no-repeat;
+      display: flex; justify-content: center; align-items: center;
+      text-align: center; color: white; position: relative; overflow: hidden;
+      padding: 0 20px;
+    }
+    .hero-content { max-width: 800px; animation: fadeInUp 1.5s ease forwards; }
+    .hero h1 {
+      font-size: 4rem; font-weight: 900; margin-bottom: 20px;
+      text-transform: uppercase; letter-spacing: 3px; line-height: 1.1;
+    }
+    .hero h1 span { color: var(--rouge-clair); text-shadow: 0 0 20px rgba(255, 206, 84, 0.5); }
+    .hero p { font-size: 1.3rem; margin-bottom: 40px; font-weight: 300; letter-spacing: 1px; }
+    .hero-scroll-hint {
+      position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+      font-size: 2rem; color: white; animation: bounceDown 2s infinite;
     }
 
-    /* ===== HERO (carte "cahier" au lieu de photo plein écran) ===== */
-    .hero {
-      min-height: 100vh;
-      display: flex; align-items: center;
-      padding: 150px 30px 80px;
-      position: relative; overflow: hidden;
-      background: var(--creme);
+    /* ===== BANNIÈRE DE PAGE (pages intérieures) ===== */
+    .page-banner {
+      padding: 180px 20px 90px;
+      background: linear-gradient(135deg, var(--rouge-fonce), var(--rouge));
+      color: white; text-align: center;
     }
-    .hero::before, .hero::after {
-      content: ''; position: absolute; border-radius: 50%;
-      filter: blur(2px); opacity: 0.5; z-index: 0;
+    .page-banner h1 {
+      font-size: 2.8rem; font-weight: 900;
+      text-transform: uppercase; letter-spacing: 2px;
     }
-    .hero::before { width: 340px; height: 340px; background: var(--jaune); opacity: 0.25; top: -80px; right: -60px; }
-    .hero::after { width: 260px; height: 260px; background: var(--bleu-vif); opacity: 0.12; bottom: -60px; left: -40px; }
-    .hero-grid {
-      max-width: 1250px; margin: 0 auto; width: 100%;
-      display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 60px; align-items: center;
-      position: relative; z-index: 1;
+    .page-banner p {
+      margin-top: 15px; font-size: 1.1rem; opacity: 0.9;
+      max-width: 700px; margin-left: auto; margin-right: auto;
     }
-    .hero-eyebrow {
-      font-family: 'Caveat', cursive; font-size: 1.6rem; font-weight: 700;
-      color: var(--corail-fonce); display: inline-block; margin-bottom: 6px;
-    }
-    .hero h1 {
-      font-size: 3.4rem; font-weight: 900; line-height: 1.1;
-      color: var(--bleu-fonce); margin-bottom: 20px; text-wrap: balance;
-    }
-    .hero h1 span { color: var(--corail); }
-    .hero p.lead { font-size: 1.15rem; color: var(--gris-doux); margin-bottom: 36px; max-width: 480px; }
-    .hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; }
+    .breadcrumb { margin-top: 20px; font-size: 0.85rem; opacity: 0.85; }
+    .breadcrumb a { color: white; text-decoration: underline; }
 
     .btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 15px 34px;
-      background: var(--corail); color: white;
-      text-decoration: none; font-weight: 800; font-size: 0.95rem;
+      display: inline-block; padding: 15px 40px;
+      background: var(--rouge); color: white;
+      text-decoration: none; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 2px;
       border-radius: 50px; transition: var(--transition);
-      border: 2px solid var(--corail);
-      box-shadow: 0 10px 24px rgba(255, 111, 89, 0.35);
+      border: 2px solid var(--rouge);
+      position: relative; overflow: hidden;
     }
-    .btn:hover { background: var(--corail-fonce); border-color: var(--corail-fonce); transform: translateY(-3px); }
-    .btn-outline-bleu {
-      background: transparent; color: var(--bleu); border: 2px solid var(--bleu);
-      box-shadow: none;
+    .btn:hover {
+      background: transparent; color: white;
+      box-shadow: 0 0 20px rgba(255, 111, 89, 0.6);
+      transform: translateY(-3px);
     }
-    .btn-outline-bleu:hover { background: var(--bleu); color: white; }
+    .btn-vert { background: var(--vert); border-color: var(--vert); }
+    .btn-vert:hover { box-shadow: 0 0 20px rgba(10, 77, 163, 0.6); }
 
-    .hero-photo-wrap { position: relative; }
-    .hero-photo {
-      border-radius: 24px; overflow: hidden;
-      transform: rotate(2deg);
-      box-shadow: 0 30px 60px -15px rgba(10, 53, 117, 0.35);
-      border: 8px solid white;
+    .lien-plus {
+      display: inline-flex; align-items: center; gap: 8px;
+      color: var(--rouge); font-weight: 700; text-decoration: none;
+      text-transform: uppercase; letter-spacing: 1px; font-size: 0.85rem;
+      margin-top: 30px; transition: var(--transition);
     }
-    .hero-photo img { display: block; width: 100%; height: 420px; object-fit: cover; }
-    .hero-badge-float {
-      position: absolute; bottom: -22px; left: -26px;
-      background: var(--blanc); border-radius: 18px;
-      padding: 14px 20px; box-shadow: 0 14px 30px rgba(10,77,163,0.2);
-      transform: rotate(-4deg);
-      display: flex; align-items: center; gap: 10px;
-      font-weight: 800; color: var(--bleu-fonce); font-size: 0.95rem;
-    }
-    .hero-badge-float .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--jaune); }
+    .lien-plus:hover { gap: 14px; color: var(--rouge-fonce); }
 
-    /* ===== SECTIONS GÉNÉRIQUES ===== */
-    section { padding: 110px 20px; position: relative; }
+    /* ===== SECTIONS ===== */
+    section { padding: 100px 20px; position: relative; }
     .container { max-width: 1200px; margin: 0 auto; }
     .section-header { text-align: center; margin-bottom: 60px; }
-    .section-eyebrow {
-      font-family: 'Caveat', cursive; font-size: 1.5rem; font-weight: 700;
-      color: var(--corail-fonce); display: block; margin-bottom: 4px;
-    }
     .section-header h2 {
-      font-size: 2.3rem; font-weight: 900; color: var(--bleu-fonce);
+      font-size: 2.5rem; font-weight: 900; color: var(--gris-fonce);
+      text-transform: uppercase; letter-spacing: 2px;
+      position: relative; display: inline-block; padding-bottom: 15px;
     }
-    .section-header p { color: var(--gris-doux); margin-top: 14px; font-size: 1.05rem; }
+    .section-header h2::after {
+      content: ''; position: absolute; bottom: 0; left: 50%;
+      transform: translateX(-50%); width: 60px; height: 4px;
+      background: var(--rouge); border-radius: 2px;
+    }
+    .section-header p { color: #666; margin-top: 15px; font-size: 1.1rem; }
+    .section-header.left { text-align: left; }
+    .section-header.left h2::after { left: 0; transform: none; }
 
-    /* ===== HISTOIRE (image en blob, pas de box-shadow décalée) ===== */
+    /* ===== HISTOIRE / BLOCS ALTERNÉS (réutilisé par Programmes) ===== */
     .histoire-grid {
       display: grid; grid-template-columns: 1fr 1fr;
       gap: 60px; align-items: center;
+      margin-bottom: 80px;
     }
-    .histoire-text h3 { font-size: 1.6rem; color: var(--corail-fonce); margin-bottom: 18px; font-weight: 800; }
-    .histoire-text p { margin-bottom: 18px; line-height: 1.8; color: var(--gris-doux); }
+    .histoire-grid:last-child { margin-bottom: 0; }
+    .histoire-grid.reverse .histoire-image { order: -1; }
+    .histoire-text h3 { font-size: 1.8rem; color: var(--rouge); margin-bottom: 20px; }
+    .histoire-text p { margin-bottom: 20px; line-height: 1.8; color: #555; }
+    .histoire-text ul { margin: 0 0 20px 20px; color: #555; line-height: 1.9; }
     .histoire-image {
       height: 400px;
-      background: url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1000&auto=format&fit=crop') center/cover;
-      border-radius: 45% 55% 60% 40% / 55% 45% 55% 45%;
-      box-shadow: 0 30px 50px -10px rgba(10, 77, 163, 0.25);
+      background: url('https://images.unsplash.com/photo-1580582932707-520aed937b7b?q=80&w=1000&auto=format&fit=crop') center/cover;
+      border-radius: 30px;
+      box-shadow: 20px 20px 0px var(--vert);
+      position: relative;
     }
 
-    /* ===== COMPTEURS (bloc corail, contraste avec le bleu dominant) ===== */
+    /* ===== TIMELINE (Histoire) ===== */
+    .timeline {
+      position: relative; max-width: 800px; margin: 0 auto;
+      padding-left: 40px; border-left: 3px solid var(--rouge);
+    }
+    .timeline-item { position: relative; margin-bottom: 45px; }
+    .timeline-item:last-child { margin-bottom: 0; }
+    .timeline-item::before {
+      content: ''; position: absolute; left: -49px; top: 4px;
+      width: 16px; height: 16px; border-radius: 50%;
+      background: var(--vert); box-shadow: 0 0 0 4px white, 0 0 0 5px var(--rouge);
+    }
+    .timeline-year { font-size: 1.4rem; font-weight: 900; color: var(--rouge); margin-bottom: 8px; }
+    .timeline-item p { color: #555; line-height: 1.8; }
+
+    /* ===== COMPTEURS ANIMÉS ===== */
     .compteurs {
-      background: linear-gradient(135deg, var(--corail-fonce), var(--corail));
-      color: white; padding: 70px 20px; border-radius: 50px;
-      max-width: 1200px; margin: 0 auto;
+      background: linear-gradient(135deg, var(--rouge-fonce), var(--rouge));
+      color: white;
+      padding: 80px 20px;
     }
     .compteurs-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 30px; text-align: center;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
     }
-    .compteur-number { font-size: 3.4rem; font-weight: 900; display: inline-block; }
-    .compteur-number::after { content: '+'; font-size: 2rem; }
+    .compteur-item { padding: 20px; }
+    .compteur-number {
+      font-size: 4rem; font-weight: 900; color: white;
+      display: inline-block; text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+    .compteur-number::after { content: '+'; color: var(--vert-clair); font-size: 2.5rem; }
     .compteur-item.no-plus .compteur-number::after { content: ''; }
     .compteur-label {
-      font-size: 0.9rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 1.5px; opacity: 0.9; margin-top: 6px;
+      font-size: 1rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 2px; opacity: 0.9; margin-top: 10px;
     }
 
-    /* ===== PROGRAMMES (cartes sticker, contour pointillé) ===== */
+    /* ===== VALEURS / PROGRAMMES (cartes) ===== */
+    .programmes { background: var(--gris-clair); }
     .prog-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 26px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 30px;
     }
     .prog-card {
-      background: var(--blanc); border-radius: 26px;
-      padding: 36px 28px; text-align: center;
-      border: 2.5px dashed transparent;
+      background: white;
+      border-radius: 30px;
+      padding: 40px 30px; text-align: center;
       transition: var(--transition);
-      box-shadow: 0 10px 26px rgba(10, 77, 163, 0.07);
+      border-bottom: 5px solid transparent;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
     }
     .prog-card:hover {
-      transform: translateY(-10px) rotate(-1deg);
-      border-color: var(--corail);
-      box-shadow: 0 20px 36px rgba(255, 111, 89, 0.18);
+      transform: translateY(-15px);
+      border-bottom-color: var(--rouge);
+      box-shadow: 0 20px 40px rgba(255, 111, 89, 0.1);
     }
-    .prog-icon-wrap {
-      width: 70px; height: 70px; margin: 0 auto 18px;
-      border-radius: 50%; display: flex; align-items: center; justify-content: center;
-      background: var(--creme-fonce); font-size: 2.1rem;
-      transition: var(--transition);
+    .prog-icon {
+      font-size: 3.5rem; margin-bottom: 20px;
+      display: inline-block; transition: var(--transition);
     }
-    .prog-card:hover .prog-icon-wrap { background: var(--jaune); transform: scale(1.1); }
-    .prog-card h3 { font-size: 1.2rem; margin-bottom: 12px; color: var(--bleu-fonce); font-weight: 800; }
-    .prog-card p { color: var(--gris-doux); font-size: 0.93rem; line-height: 1.6; }
+    .prog-card:hover .prog-icon { transform: scale(1.2) rotate(5deg); }
+    .prog-card h3 { font-size: 1.3rem; margin-bottom: 15px; color: var(--rouge); }
+    .prog-card p { color: #666; font-size: 0.95rem; }
 
     /* ===== GALERIE ===== */
     .galerie-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 22px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
     }
     .galerie-item {
-      height: 250px; border-radius: 22px;
+      height: 250px; border-radius: 25px;
       overflow: hidden; position: relative; cursor: pointer;
-      box-shadow: 0 8px 20px rgba(10,77,163,0.1);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
-    .galerie-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
-    .galerie-item:hover img { transform: scale(1.12); }
+    .galerie-item img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    .galerie-item:hover img { transform: scale(1.15); }
     .galerie-overlay {
-      position: absolute; inset: 0;
-      background: rgba(255, 111, 89, 0.85);
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(255, 111, 89, 0.8);
       display: flex; justify-content: center; align-items: center;
       opacity: 0; transition: var(--transition);
-      color: white; font-weight: 800; font-size: 1.1rem;
+      color: white; font-weight: 700; font-size: 1.2rem; letter-spacing: 2px;
     }
     .galerie-item:hover .galerie-overlay { opacity: 1; }
+    .galerie-categorie { margin-bottom: 60px; }
+    .galerie-categorie:last-child { margin-bottom: 0; }
+    .galerie-categorie h3 {
+      font-size: 1.4rem; color: var(--rouge); margin-bottom: 25px;
+      padding-bottom: 10px; border-bottom: 3px solid var(--gris-clair);
+    }
 
-    /* ===== PLACEHOLDER ===== */
+    /* ===== ÉQUIPE ===== */
+    .team-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 30px;
+    }
+    .team-card {
+      background: white; border-radius: 30px; padding: 40px 30px; text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: var(--transition);
+    }
+    .team-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(255, 111, 89, 0.1); }
+    .team-avatar {
+      width: 90px; height: 90px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--rouge), var(--rouge-fonce));
+      color: white; display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; font-weight: 900; margin: 0 auto 20px;
+    }
+    .team-card h3 { color: var(--rouge); margin-bottom: 5px; font-size: 1.2rem; }
+    .team-role {
+      color: var(--vert); font-weight: 700; font-size: 0.8rem;
+      text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px;
+    }
+    .team-card p { color: #666; font-size: 0.9rem; line-height: 1.6; }
+
+    /* ===== ACTUALITÉS ===== */
+    .news-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 30px;
+    }
+    .news-card {
+      background: white; border-radius: 25px; overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: var(--transition);
+    }
+    .news-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(255, 111, 89, 0.1); }
+    .news-img { height: 180px; background-size: cover; background-position: center; }
+    .news-body { padding: 25px; }
+    .news-date {
+      color: var(--vert); font-weight: 700; font-size: 0.8rem;
+      text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; display: block;
+    }
+    .news-card h3 { color: var(--rouge); margin-bottom: 10px; font-size: 1.15rem; }
+    .news-card p { color: #666; font-size: 0.9rem; line-height: 1.6; }
+
+    /* ===== INSCRIPTIONS : ÉTAPES ===== */
+    .steps-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 30px;
+    }
+    .step-card {
+      background: white; border-radius: 25px; padding: 35px 25px; text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    }
+    .step-number {
+      width: 50px; height: 50px; border-radius: 50%; background: var(--rouge);
+      color: white; font-weight: 900; font-size: 1.3rem;
+      display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;
+    }
+    .step-card h3 { color: var(--rouge); font-size: 1.1rem; margin-bottom: 10px; }
+    .step-card p { color: #666; font-size: 0.9rem; line-height: 1.6; }
+
+    .docs-list { list-style: none; max-width: 700px; margin: 0 auto; }
+    .docs-list li {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 15px 0; border-bottom: 1px solid #eee; color: #555; line-height: 1.6;
+    }
+    .docs-list li span.check { color: var(--vert); font-size: 1.3rem; flex-shrink: 0; }
+
+    /* ===== FAQ (natif, sans JS) ===== */
+    .faq-item {
+      background: white; border-radius: 20px; margin-bottom: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05); overflow: hidden;
+      max-width: 800px; margin-left: auto; margin-right: auto; margin-bottom: 15px;
+    }
+    .faq-item summary {
+      padding: 22px 25px; font-weight: 700; color: var(--rouge); cursor: pointer;
+      list-style: none; display: flex; justify-content: space-between; align-items: center;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after { content: '+'; font-size: 1.5rem; color: var(--vert); transition: var(--transition); }
+    .faq-item[open] summary::after { content: '−'; }
+    .faq-item .faq-answer { padding: 0 25px 22px; color: #666; line-height: 1.7; }
+
+    /* ===== CONTACT ===== */
+    .info-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 25px; margin-bottom: 50px;
+    }
+    .info-card {
+      background: white; border-radius: 25px; padding: 35px 25px; text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    }
+    .info-icon { font-size: 2.5rem; margin-bottom: 15px; }
+    .info-card h3 {
+      color: var(--rouge); font-size: 1rem; margin-bottom: 10px;
+      text-transform: uppercase; letter-spacing: 1px;
+    }
+    .info-card p { color: #666; line-height: 1.7; }
+    .info-card a { color: var(--vert); font-weight: 700; text-decoration: none; }
+    .map-wrap {
+      border-radius: 30px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      height: 400px;
+    }
+    .map-wrap iframe { width: 100%; height: 100%; border: 0; }
+
+    /* ===== PLACEHOLDER SECTIONS ===== */
     .placeholder-section {
       background: var(--blanc); text-align: center;
-      padding: 55px 20px;
-      border: 2.5px dashed rgba(10,77,163,0.25); border-radius: 30px;
+      padding: 60px 20px;
+      border: 2px dashed #ddd; border-radius: 30px;
       margin: 20px auto; max-width: 800px;
     }
-    .placeholder-section h3 { color: var(--corail-fonce); margin-bottom: 10px; font-weight: 800; }
+    .placeholder-section h3 { color: var(--vert); margin-bottom: 10px; }
 
     /* ===== FOOTER ===== */
-    footer {
-      background: var(--bleu-fonce); color: #c9d8ee;
-      padding: 60px 20px 20px; border-radius: 50px 50px 0 0; margin-top: 40px;
-    }
+    footer { background: #111; color: #aaa; padding: 60px 20px 20px; border-radius: 40px 40px 0 0; margin-top: 40px; }
     .footer-grid {
       max-width: 1200px; margin: 0 auto;
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 40px; margin-bottom: 40px;
     }
-    .footer-col h4 { color: white; margin-bottom: 18px; font-size: 1.05rem; }
+    .footer-col h4 { color: white; margin-bottom: 20px; font-size: 1.1rem; letter-spacing: 1px; }
     .footer-col ul { list-style: none; }
     .footer-col ul li { margin-bottom: 10px; }
-    .footer-col a { color: #c9d8ee; text-decoration: none; transition: var(--transition); }
-    .footer-col a:hover { color: var(--jaune); padding-left: 4px; }
-    .footer-bottom { text-align: center; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.12); font-size: 0.85rem; }
+    .footer-col a { color: #aaa; text-decoration: none; transition: var(--transition); }
+    .footer-col a:hover { color: var(--rouge-clair); padding-left: 5px; }
+    .footer-bottom { text-align: center; padding-top: 20px; border-top: 1px solid #333; font-size: 0.85rem; }
 
-    /* ===== ANIMATIONS SCROLL (douces : fade + léger zoom, pas de grands slides) ===== */
+    /* ========================================= */
+    /* ===== 🔥 ANIMATIONS AU SCROLL ============ */
+    /* ========================================= */
     [data-anim] {
-      opacity: 0; transform: translateY(26px) scale(0.98);
-      transition: opacity 0.8s ease, transform 0.8s ease;
+      opacity: 0;
+      transition: opacity 0.9s cubic-bezier(0.25, 0.8, 0.25, 1),
+                  transform 0.9s cubic-bezier(0.25, 0.8, 0.25, 1);
+      will-change: opacity, transform;
     }
-    [data-anim].anim-in { opacity: 1; transform: translateY(0) scale(1); }
-    [data-anim][data-delay="1"] { transition-delay: 0.1s; }
-    [data-anim][data-delay="2"] { transition-delay: 0.2s; }
-    [data-anim][data-delay="3"] { transition-delay: 0.3s; }
-    [data-anim][data-delay="4"] { transition-delay: 0.4s; }
+    [data-anim="fade-up"] { transform: translateY(60px); }
+    [data-anim="fade-down"] { transform: translateY(-60px); }
+    [data-anim="fade-left"] { transform: translateX(-80px); }
+    [data-anim="fade-right"] { transform: translateX(80px); }
+    [data-anim="zoom-in"] { transform: scale(0.7); }
+    [data-anim="rotate"] { transform: rotate(-15deg) scale(0.8); }
+    [data-anim="flip"] { transform: perspective(600px) rotateY(90deg); }
+    [data-anim].anim-in {
+      opacity: 1;
+      transform: translateY(0) translateX(0) scale(1) rotate(0) perspective(600px) rotateY(0);
+    }
+    [data-anim][data-delay="1"] { transition-delay: 0.15s; }
+    [data-anim][data-delay="2"] { transition-delay: 0.30s; }
+    [data-anim][data-delay="3"] { transition-delay: 0.45s; }
+    [data-anim][data-delay="4"] { transition-delay: 0.60s; }
+    [data-anim][data-delay="5"] { transition-delay: 0.75s; }
+    [data-anim][data-delay="6"] { transition-delay: 0.90s; }
 
-    @keyframes stickerIn { to { opacity: 1; transform: rotate(-3deg) scale(1); } }
-    @keyframes dotBounce { 0%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } }
+    /* ===== ANIMATIONS KEYFRAMES ===== */
+    @keyframes zoomIn {
+      0% { transform: scale(0); opacity: 0; }
+      70% { transform: scale(1.1); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    @keyframes pulseRing {
+      0% { transform: scale(1); box-shadow: 0 0 20px rgba(255, 111, 89, 0.2); }
+      100% { transform: scale(1.05); box-shadow: 0 0 40px rgba(255, 111, 89, 0.6); }
+    }
+    @keyframes slideUpFade {
+      0% { transform: translateY(30px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes loadBar {
+      0% { width: 0%; }
+      100% { width: 100%; }
+    }
+    @keyframes fadeInUp {
+      0% { transform: translateY(40px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes bounceDown {
+      0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+      40% { transform: translateX(-50%) translateY(-15px); }
+      60% { transform: translateX(-50%) translateY(-8px); }
+    }
 
     /* ===== RESPONSIVE ===== */
-    @media (max-width: 992px) {
-      .hero-grid { grid-template-columns: 1fr; }
-      .hero-photo-wrap { order: -1; max-width: 420px; margin: 0 auto; }
-      .hero h1 { font-size: 2.6rem; }
-      .histoire-grid { grid-template-columns: 1fr; }
-      .histoire-image { height: 300px; }
+    @media (max-width: 1100px) {
+      nav a { padding: 8px 12px; font-size: 0.72rem; }
     }
-    @media (max-width: 860px) {
+    @media (max-width: 992px) {
+      .histoire-grid { grid-template-columns: 1fr; }
+      .histoire-grid.reverse .histoire-image { order: 0; }
+      .histoire-image { box-shadow: 10px 10px 0px var(--vert); height: 300px; }
+      .hero h1 { font-size: 2.8rem; }
+    }
+    @media (max-width: 900px) {
       .menu-toggle { display: block; }
       nav {
-        position: fixed; top: 76px; left: 16px; right: 16px;
-        opacity: 0; visibility: hidden; transform: translateY(-14px);
-        transition: var(--transition);
-        background: var(--blanc); border-radius: 24px;
-        box-shadow: 0 24px 50px rgba(10,77,163,0.2);
-        padding: 10px;
+        position: absolute; top: 100%; left: 0; right: 0;
+        margin-top: 15px; opacity: 0; visibility: hidden;
+        transform: translateY(-10px); transition: var(--transition);
       }
       nav.active { opacity: 1; visibility: visible; transform: translateY(0); }
-      nav ul { flex-direction: column; align-items: stretch; gap: 2px; }
-      nav a { padding: 14px 18px; text-align: center; border-radius: 14px; }
-      nav a::after { display: none; }
-      nav a.active { background: var(--creme-fonce); }
-      .hero h1 { font-size: 2.1rem; }
-      .compteur-number { font-size: 2.4rem; }
+      nav ul {
+        flex-direction: column; background: white;
+        padding: 20px; border-radius: 30px;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        gap: 8px;
+      }
+      nav a {
+        display: block; padding: 15px 25px;
+        font-size: 0.9rem; text-align: center;
+        border-radius: 50px; width: 100%;
+      }
+      .hero h1 { font-size: 2.2rem; }
+      .page-banner h1 { font-size: 2rem; }
+      .page-banner { padding: 160px 20px 70px; }
+      header { top: 10px; }
+      .compteur-number { font-size: 2.8rem; }
+      .timeline { padding-left: 30px; }
+      .timeline-item::before { left: -39px; }
     }
+
   </style>
 </head>
 <body>
@@ -357,71 +565,58 @@
   <!-- ===== BARRE DE PROGRESSION ===== -->
   <div id="progress-bar"></div>
 
-  <!-- ===== PRELOADER ===== -->
+  <!-- ===== PRELOADER (accueil uniquement) ===== -->
   <div id="preloader">
-    <div class="logo-sticker-intro">
-      <img src="logo.png" alt="Liantsoa School">
+    <div class="logo-intro">
+      <img src="logo.png" alt="Liantsoa School" class="logo-img-intro">
     </div>
-    <div class="loading-dots"><span></span><span></span><span></span></div>
+    <div class="loading-bar"></div>
   </div>
 
   <!-- ===== HEADER ===== -->
   <header id="header">
     <div class="nav-container">
-      <div class="nav-logo" onclick="window.scrollTo({top:0, behavior:'smooth'})">
-        <div class="logo-sticker"><img src="logo.png" alt="Liantsoa School"></div>
-      </div>
+      <a href="index.html" class="nav-logo">
+        <img src="logo.png" alt="Liantsoa School" class="nav-logo-img">
+      </a>
       <button class="menu-toggle" id="menuToggle">☰</button>
       <nav id="mainNav">
         <ul>
-          <li><a href="#accueil" class="active">Accueil</a></li>
-          <li><a href="#histoire">Histoire</a></li>
-          <li><a href="#programmes">Programmes</a></li>
-          <li><a href="#galerie">Galerie</a></li>
-          <li><a href="#equipe">Équipe</a></li>
-          <li><a href="#actualites">Actualités</a></li>
-          <li><a href="#inscriptions">Inscriptions</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li><a href="index.html" class="active">Accueil</a></li>
+          <li><a href="histoire.html">Histoire</a></li>
+          <li><a href="programmes.html">Programmes</a></li>
+          <li><a href="galerie.html">Galerie</a></li>
+          <li><a href="equipe.html">Équipe</a></li>
+          <li><a href="actualites.html">Actualités</a></li>
+          <li><a href="inscriptions.html">Inscriptions</a></li>
+          <li><a href="contact.html">Contact</a></li>
         </ul>
       </nav>
     </div>
   </header>
-
   <!-- ===== HERO ===== -->
-  <section class="hero" id="accueil">
-    <div class="hero-grid">
-      <div>
-        <span class="hero-eyebrow">bienvenue chez nous</span>
-        <h1>Apprendre avec<br>le <span>sourire</span></h1>
-        <p class="lead">Liantsoa School accompagne chaque enfant, de la maternelle au lycée, dans un cadre bienveillant où la confiance se construit chaque jour.</p>
-        <div class="hero-ctas">
-          <a href="#inscriptions" class="btn">S'inscrire maintenant</a>
-          <a href="#histoire" class="btn btn-outline-bleu">Découvrir l'école</a>
-        </div>
-      </div>
-      <div class="hero-photo-wrap" data-anim="zoom-in">
-        <div class="hero-photo">
-          <img src="https://images.unsplash.com/photo-1588072432836-e10032774350?q=80&w=900&auto=format&fit=crop" alt="Élèves de Liantsoa School">
-        </div>
-        <div class="hero-badge-float"><span class="dot"></span> 15 ans d'expérience</div>
-      </div>
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Apprendre avec<br>le <span>sourire</span></h1>
+      <p>Liantsoa School accompagne chaque enfant, de la maternelle au lycée, dans un cadre bienveillant où la confiance se construit chaque jour.</p>
+      <a href="inscriptions.html" class="btn">S'inscrire maintenant</a>
     </div>
+    <div class="hero-scroll-hint">⌄</div>
   </section>
 
-  <!-- ===== HISTOIRE ===== -->
-  <section id="histoire">
+  <!-- ===== HISTOIRE (resume) ===== -->
+  <section>
     <div class="container">
       <div class="section-header">
-        <span class="section-eyebrow" data-anim="fade-up">notre parcours</span>
         <h2 data-anim="fade-up">Notre Histoire</h2>
         <p data-anim="fade-up" data-delay="1">Une école où chaque enfant trouve sa place</p>
       </div>
       <div class="histoire-grid">
         <div class="histoire-text">
-          <h3 data-anim="fade-up">Plus qu'une école, un sourire</h3>
-          <p data-anim="fade-up" data-delay="1">Liantsoa School est née d'une conviction simple : chaque enfant mérite un environnement bienveillant pour s'épanouir et apprendre à son rythme.</p>
-          <p data-anim="fade-up" data-delay="2">Notre pédagogie s'appuie sur l'écoute, la curiosité et la joie d'apprendre. Le sourire de nos élèves est notre plus belle réussite.</p>
-          <p data-anim="fade-up" data-delay="3">Nos valeurs : <strong>Bienveillance, Excellence et Créativité</strong>.</p>
+          <h3 data-anim="fade-right">Plus qu'une école, un sourire</h3>
+          <p data-anim="fade-right" data-delay="1">Liantsoa School est née d'une conviction simple : chaque enfant mérite un environnement bienveillant pour s'épanouir et apprendre à son rythme.</p>
+          <p data-anim="fade-right" data-delay="2">Nos valeurs sont simples : <strong>Bienveillance, Excellence et Créativité</strong>. Ces piliers guident nos actions au quotidien.</p>
+          <a href="histoire.html" class="lien-plus" data-anim="fade-right" data-delay="3">En savoir plus sur notre histoire →</a>
         </div>
         <div class="histoire-image" data-anim="zoom-in"></div>
       </div>
@@ -429,150 +624,140 @@
   </section>
 
   <!-- ===== COMPTEURS ===== -->
-  <section style="padding: 0 20px 110px;">
-    <div class="compteurs" data-anim="zoom-in">
-      <div class="compteurs-grid">
-        <div class="compteur-item">
-          <div class="compteur-number" data-count="350">0</div>
-          <div class="compteur-label">Élèves</div>
-        </div>
-        <div class="compteur-item">
-          <div class="compteur-number" data-count="25">0</div>
-          <div class="compteur-label">Enseignants</div>
-        </div>
-        <div class="compteur-item no-plus">
-          <div class="compteur-number" data-count="100" data-suffix="%">0</div>
-          <div class="compteur-label">Sourires</div>
-        </div>
-        <div class="compteur-item">
-          <div class="compteur-number" data-count="15">0</div>
-          <div class="compteur-label">Années</div>
-        </div>
-      </div>
+  <section class="compteurs">
+    <div class="compteurs-grid">
+      <div class="compteur-item"><div class="compteur-number" data-count="350">0</div><div class="compteur-label">Élèves</div></div>
+      <div class="compteur-item"><div class="compteur-number" data-count="25">0</div><div class="compteur-label">Enseignants</div></div>
+      <div class="compteur-item no-plus"><div class="compteur-number" data-count="100" data-suffix="%">0</div><div class="compteur-label">Sourires</div></div>
+      <div class="compteur-item"><div class="compteur-number" data-count="15">0</div><div class="compteur-label">Années</div></div>
     </div>
   </section>
 
-  <!-- ===== PROGRAMMES ===== -->
-  <section id="programmes" style="background: var(--creme-fonce);">
+  <!-- ===== PROGRAMMES (resume) ===== -->
+  <section id="programmes" class="programmes">
     <div class="container">
       <div class="section-header">
-        <span class="section-eyebrow" data-anim="fade-up">pour chaque âge</span>
         <h2 data-anim="fade-up">Nos Programmes</h2>
         <p data-anim="fade-up" data-delay="1">Un parcours adapté à chaque étape</p>
       </div>
       <div class="prog-grid">
-        <div class="prog-card" data-anim="fade-up" data-delay="1">
-          <div class="prog-icon-wrap">🧸</div>
-          <h3>Maternelle</h3>
-          <p>Éveil, socialisation et découverte par le jeu. Un cocon chaleureux pour les premiers pas.</p>
-        </div>
-        <div class="prog-card" data-anim="fade-up" data-delay="2">
-          <div class="prog-icon-wrap">✏️</div>
-          <h3>Primaire</h3>
-          <p>Acquisition des fondamentaux dans la bonne humeur, avec un accompagnement personnalisé.</p>
-        </div>
-        <div class="prog-card" data-anim="fade-up" data-delay="3">
-          <div class="prog-icon-wrap">📚</div>
-          <h3>Collège</h3>
-          <p>Développement de l'autonomie et de l'esprit critique, préparation sereine à l'avenir.</p>
-        </div>
-        <div class="prog-card" data-anim="fade-up" data-delay="4">
-          <div class="prog-icon-wrap">🎓</div>
-          <h3>Lycée</h3>
-          <p>Excellence académique, orientation et accompagnement vers l'enseignement supérieur.</p>
-        </div>
+        <div class="prog-card" data-anim="fade-up" data-delay="1"><div class="prog-icon">🧸</div><h3>Maternelle</h3><p>Éveil, socialisation et découverte par le jeu.</p></div>
+        <div class="prog-card" data-anim="fade-up" data-delay="2"><div class="prog-icon">✏️</div><h3>Primaire</h3><p>Acquisition des fondamentaux dans la bonne humeur.</p></div>
+        <div class="prog-card" data-anim="fade-up" data-delay="3"><div class="prog-icon">📚</div><h3>Collège</h3><p>Développement de l'autonomie et de l'esprit critique.</p></div>
+        <div class="prog-card" data-anim="fade-up" data-delay="4"><div class="prog-icon">🎓</div><h3>Lycée</h3><p>Excellence académique et accompagnement post-bac.</p></div>
+      </div>
+      <div style="text-align:center;">
+        <a href="programmes.html" class="lien-plus" data-anim="fade-up" data-delay="5">Voir le détail de tous les programmes →</a>
       </div>
     </div>
   </section>
 
-  <!-- ===== GALERIE ===== -->
+  <!-- ===== GALERIE (resume) ===== -->
   <section id="galerie">
     <div class="container">
       <div class="section-header">
-        <span class="section-eyebrow" data-anim="fade-up">en images</span>
         <h2 data-anim="fade-up">Galerie</h2>
         <p data-anim="fade-up" data-delay="1">La vie à Liantsoa School en images</p>
       </div>
       <div class="galerie-grid">
-        <div class="galerie-item" data-anim="fade-up" data-delay="1">
+        <div class="galerie-item" data-anim="flip" data-delay="1">
           <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=800&auto=format&fit=crop" alt="Salle de classe">
           <div class="galerie-overlay">Salle de classe</div>
         </div>
-        <div class="galerie-item" data-anim="fade-up" data-delay="2">
+        <div class="galerie-item" data-anim="flip" data-delay="2">
           <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=800&auto=format&fit=crop" alt="Bibliothèque">
           <div class="galerie-overlay">Bibliothèque</div>
         </div>
-        <div class="galerie-item" data-anim="fade-up" data-delay="3">
+        <div class="galerie-item" data-anim="flip" data-delay="3">
           <img src="https://images.unsplash.com/photo-1571260899304-425eee4c7efc?q=80&w=800&auto=format&fit=crop" alt="Cour de récréation">
           <div class="galerie-overlay">Cour de récréation</div>
         </div>
-        <div class="galerie-item" data-anim="fade-up" data-delay="4">
+        <div class="galerie-item" data-anim="flip" data-delay="4">
           <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?q=80&w=800&auto=format&fit=crop" alt="Activités">
           <div class="galerie-overlay">Activités</div>
         </div>
       </div>
+      <div style="text-align:center;">
+        <a href="galerie.html" class="lien-plus" data-anim="fade-up">Voir toute la galerie →</a>
+      </div>
     </div>
   </section>
 
-  <!-- ===== ÉQUIPE ===== -->
-  <section id="equipe" style="background: var(--creme-fonce);">
+  <!-- ===== EQUIPE (resume) ===== -->
+  <section id="equipe" style="background: var(--gris-clair);">
     <div class="container">
       <div class="section-header">
-        <span class="section-eyebrow" data-anim="fade-up">des passionnés</span>
         <h2 data-anim="fade-up">Notre Équipe</h2>
         <p data-anim="fade-up" data-delay="1">Des professionnels passionnés et souriants</p>
       </div>
-      <div class="placeholder-section" style="background: white;" data-anim="zoom-in">
+      <div class="placeholder-section" style="background: white; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.05);" data-anim="zoom-in">
         <h3>Une équipe dévouée</h3>
         <p>Nos enseignants sont sélectionnés pour leur expertise, leur bienveillance et leur bonne humeur communicative.</p>
+        <a href="equipe.html" class="lien-plus">Découvrir toute l'équipe →</a>
       </div>
     </div>
   </section>
 
-  <!-- ===== ACTUALITÉS ===== -->
+  <!-- ===== ACTUALITES (resume) ===== -->
   <section id="actualites">
     <div class="container">
       <div class="section-header">
-        <span class="section-eyebrow" data-anim="fade-up">ça se passe ici</span>
         <h2 data-anim="fade-up">Actualités</h2>
         <p data-anim="fade-up" data-delay="1">Les dernières nouvelles de l'école</p>
       </div>
-      <div class="placeholder-section" data-anim="fade-up" data-delay="1">
-        <h3>Restez informés</h3>
-        <p>Retrouvez ici nos événements, sorties scolaires, spectacles et temps forts de l'année.</p>
+      <div class="news-grid">
+        <div class="news-card" data-anim="fade-up" data-delay="1">
+          <div class="news-img" style="background-image:url('https://images.unsplash.com/photo-1588072432836-e10032774350?q=80&w=800&auto=format&fit=crop');"></div>
+          <div class="news-body">
+            <span class="news-date">Septembre 2026</span>
+            <h3>Rentrée scolaire</h3>
+            <p>Toute l'équipe a accueilli ses élèves avec le sourire pour une nouvelle année.</p>
+          </div>
+        </div>
+        <div class="news-card" data-anim="fade-up" data-delay="2">
+          <div class="news-img" style="background-image:url('https://images.unsplash.com/photo-1540479859555-17af45c78602?q=80&w=800&auto=format&fit=crop');"></div>
+          <div class="news-body">
+            <span class="news-date">Décembre 2026</span>
+            <h3>Spectacle de fin d'année</h3>
+            <p>Chant, théâtre et danse devant les familles des élèves.</p>
+          </div>
+        </div>
+      </div>
+      <div style="text-align:center;">
+        <a href="actualites.html" class="lien-plus" data-anim="fade-up">Voir toutes les actualités →</a>
       </div>
     </div>
   </section>
 
-  <!-- ===== INSCRIPTIONS ===== -->
-  <section id="inscriptions" style="background: var(--creme-fonce);">
+  <!-- ===== INSCRIPTIONS (resume) ===== -->
+  <section id="inscriptions" style="background: var(--gris-clair);">
     <div class="container">
       <div class="section-header">
-        <span class="section-eyebrow" data-anim="fade-up">nous rejoindre</span>
         <h2 data-anim="fade-up">Inscriptions</h2>
         <p data-anim="fade-up" data-delay="1">Rejoignez la famille Liantsoa</p>
       </div>
-      <div class="placeholder-section" style="background: white; text-align: center;" data-anim="zoom-in">
+      <div class="placeholder-section" style="background: white; border: none; text-align: center;" data-anim="zoom-in">
         <h3>Prêt à nous rejoindre ?</h3>
-        <p style="margin-bottom: 26px; color: var(--gris-doux);">Les inscriptions sont ouvertes pour l'année scolaire à venir. Contactez notre secrétariat pour prendre rendez-vous.</p>
-        <a href="#contact" class="btn">Nous Contacter</a>
+        <p style="margin-bottom: 30px;">Les inscriptions sont ouvertes pour l'année scolaire à venir. Contactez notre secrétariat pour prendre rendez-vous.</p>
+        <a href="inscriptions.html" class="btn" style="margin-right:12px;">Voir les modalités</a>
+        <a href="contact.html" class="btn btn-vert">Nous Contacter</a>
       </div>
     </div>
   </section>
 
-  <!-- ===== CONTACT ===== -->
+  <!-- ===== CONTACT (resume) ===== -->
   <section id="contact">
     <div class="container">
       <div class="section-header">
-        <span class="section-eyebrow" data-anim="fade-up">on se parle ?</span>
         <h2 data-anim="fade-up">Contact</h2>
         <p data-anim="fade-up" data-delay="1">Nous sommes à votre disposition</p>
       </div>
-      <div class="placeholder-section" style="border-color: var(--corail);" data-anim="fade-up" data-delay="1">
-        <h3>Liantsoa School</h3>
-        <p style="color: var(--gris-doux);">📍 123 Rue de l'École, 75000 Paris<br><br>
+      <div class="placeholder-section" style="border: 2px solid var(--rouge);" data-anim="fade-up" data-delay="2">
+        <h3 style="color: var(--rouge);">Liantsoa School</h3>
+        <p>📍 123 Rue de l'École, 75000 Paris<br><br>
         📞 +33 1 23 45 67 89<br><br>
         ✉️ contact@liantsoa-school.fr</p>
+        <a href="contact.html" class="lien-plus">Voir le plan et tous les contacts →</a>
       </div>
     </div>
   </section>
@@ -587,19 +772,19 @@
       <div class="footer-col" data-anim="fade-up" data-delay="1">
         <h4>Navigation</h4>
         <ul>
-          <li><a href="#accueil">Accueil</a></li>
-          <li><a href="#histoire">Notre Histoire</a></li>
-          <li><a href="#programmes">Programmes</a></li>
-          <li><a href="#galerie">Galerie</a></li>
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="histoire.html">Notre Histoire</a></li>
+          <li><a href="programmes.html">Programmes</a></li>
+          <li><a href="galerie.html">Galerie</a></li>
         </ul>
       </div>
       <div class="footer-col" data-anim="fade-up" data-delay="2">
         <h4>Informations</h4>
         <ul>
-          <li><a href="#inscriptions">Inscriptions</a></li>
-          <li><a href="#actualites">Actualités</a></li>
-          <li><a href="#contact">Contact</a></li>
-          <li><a href="#">Mentions légales</a></li>
+          <li><a href="equipe.html">Équipe</a></li>
+          <li><a href="inscriptions.html">Inscriptions</a></li>
+          <li><a href="actualites.html">Actualités</a></li>
+          <li><a href="contact.html">Contact</a></li>
         </ul>
       </div>
     </div>
@@ -610,21 +795,29 @@
 
   <!-- ===== JAVASCRIPT ===== -->
   <script>
+    // 1. PRELOADER (present sur l'accueil uniquement)
     window.addEventListener('load', () => {
       const preloader = document.getElementById('preloader');
-      setTimeout(() => {
-        preloader.classList.add('hidden');
-        setTimeout(startCompteurs, 400);
-      }, 1200);
+      if (preloader) {
+        setTimeout(() => {
+          preloader.classList.add('hidden');
+          setTimeout(startCompteurs, 500);
+        }, 2200);
+      } else {
+        startCompteurs();
+      }
     });
 
+    // 2. BARRE DE PROGRESSION DE LECTURE
     const progressBar = document.getElementById('progress-bar');
     window.addEventListener('scroll', () => {
       const scrollTop = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      progressBar.style.width = (scrollTop / docHeight) * 100 + '%';
+      const scrollPercent = (scrollTop / docHeight) * 100;
+      progressBar.style.width = scrollPercent + '%';
     });
 
+    // 3. ANIMATIONS AU SCROLL
     const animatedElements = document.querySelectorAll('[data-anim]');
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -636,6 +829,7 @@
     }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
     animatedElements.forEach(el => observer.observe(el));
 
+    // 4. COMPTEURS ANIMES (no-op si aucun .compteur-number sur la page)
     let compteursStarted = false;
     function startCompteurs() {
       if (compteursStarted) return;
@@ -647,7 +841,7 @@
             const el = entry.target;
             const target = parseInt(el.getAttribute('data-count'));
             const suffix = el.getAttribute('data-suffix') || '';
-            const duration = 1800;
+            const duration = 2000;
             const start = performance.now();
             function animate(now) {
               const progress = Math.min((now - start) / duration, 1);
@@ -664,6 +858,7 @@
       compteurs.forEach(c => compteurObserver.observe(c));
     }
 
+    // 5. MENU MOBILE
     const menuToggle = document.getElementById('menuToggle');
     const mainNav = document.getElementById('mainNav');
     menuToggle.addEventListener('click', () => mainNav.classList.toggle('active'));
@@ -671,25 +866,11 @@
       link.addEventListener('click', () => mainNav.classList.remove('active'));
     });
 
+    // 6. HEADER SCROLLED
     const header = document.getElementById('header');
     window.addEventListener('scroll', () => {
-      header.classList.toggle('scrolled', window.scrollY > 40);
-    });
-
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('nav a');
-    window.addEventListener('scroll', () => {
-      const scrollY = window.pageYOffset;
-      sections.forEach(section => {
-        const sectionTop = section.offsetTop - 200;
-        const sectionId = section.getAttribute('id');
-        if (scrollY > sectionTop && scrollY <= sectionTop + section.offsetHeight) {
-          navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === '#' + sectionId) link.classList.add('active');
-          });
-        }
-      });
+      if (window.scrollY > 50) header.classList.add('scrolled');
+      else header.classList.remove('scrolled');
     });
   </script>
 </body>
